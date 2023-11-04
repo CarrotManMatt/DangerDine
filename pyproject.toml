@@ -35,6 +35,7 @@ setuptools = "*"  # NOTE: Required by Pycharm
 
 [tool.mypy]
 plugins = ["mypy_django_plugin.main"]
+exclude = "core/settings\\.py$"
 extra_checks = true
 warn_unused_configs = true
 disallow_untyped_calls = true
