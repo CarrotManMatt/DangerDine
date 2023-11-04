@@ -1,7 +1,9 @@
 from typing import TYPE_CHECKING, Any, Final
 
+from django.conf import settings
 from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
+from django.core.validators import MinLengthValidator, RegexValidator
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
@@ -96,3 +98,55 @@ class User(CustomBaseModel, AbstractBaseUser, PermissionsMixin):
     def clean(self) -> None:
         if self.is_superuser:
             self.is_staff = True
+
+
+class BusinessRatingLocation(CustomBaseModel):
+    class FoodHygieneRating(models.IntegerChoices):
+        """Enum of food hygiene rating number."""
+
+        ZERO = 0, _("0")
+        ONE = 1, _("1")
+
+    name = models.CharField(
+        _("Name"),
+        max_length=100,
+        validators=[
+            RegexValidator(r"^(?![\s'-])(?!.*[\s'-]{2})[A-Za-z '-]+(?<![\s'-])\Z"),
+            MinLengthValidator(2)
+        ]
+    )
+    food_hygiene_rating = models.PositiveIntegerField(
+        _("Food Hygiene Rating"),
+        choices=FoodHygieneRating.choices
+    )
+
+    class Meta:
+        verbose_name = _("Restaurant")
+
+    def __str__(self) -> str:
+        return self.name
+
+
+class LocationRoute(CustomBaseModel):
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="location_routes",
+        verbose_name=_("User"),
+        help_text=_("The user that owns this route."),
+        blank=False,
+        null=False
+    )
+    business_rating_locations = models.ManyToManyField(
+        BusinessRatingLocation,
+        related_name="location_routes",
+        verbose_name=_("Business Rating Locations"),
+        help_text=_("The set of business rating locations in this route."),
+        blank=False
+    )
+
+    class Meta:
+        verbose_name = _("Location Route")
+
+    def __str__(self) -> str:
+        return f"{self.user} - {self.business_rating_locations.count()} locations"
