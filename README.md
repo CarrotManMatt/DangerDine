@@ -9,6 +9,7 @@ An exciting web app that suggests restaurants to eat at in your local area that 
 ## Installing
 
 DangerDine uses Python 3.11, please ensure you have this version installed (downloads available [here](https://www.python.org/downloads/release/python-3116/#Files))
+We also use a spacial database so follow these steps to install:  https://docs.djangoproject.com/en/4.2/ref/contrib/gis/install/spatialite/ & https://docs.djangoproject.com/en/4.2/ref/contrib/gis/install/geolibs/
 
 ### Dependencies
 
