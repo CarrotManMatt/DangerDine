@@ -29,6 +29,7 @@ django-admin-rangefilter = "^0.11"
 confusable_homoglyphs = "^3.2"
 tldextract = "^5.0"
 requests = "^2.31"
+openrouteservice = "^2.3.3"
 
 [tool.poetry.group.dev.dependencies]
 pre-commit = "^3.5"
