@@ -120,8 +120,11 @@ class BusinessRatingLocation(CustomBaseModel):
         choices=FoodHygieneRating.choices
     )
     location = models.PointField(
-        _("Location")
+        _("Location"),
+        unique=True
     )
+
+    location_routes: models.Manager["LocationRoute"]
 
     class Meta:
         verbose_name = _("Restaurant")

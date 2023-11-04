@@ -4,12 +4,23 @@ from collections.abc import Callable
 from typing import TYPE_CHECKING, Any
 
 from django.contrib import admin, auth
+from django.contrib.admin import ModelAdmin
 from django.contrib.auth.admin import UserAdmin as DjangoUserAdmin
 from django.contrib.auth.models import Group
+from django.db import models
+from django.db.models import QuerySet
+from django.http import HttpRequest
 from django.utils.translation import gettext_lazy as _
 from rangefilter.filters import DateTimeRangeFilterBuilder
 
-from .filters import UserIsActiveListFilter, UserIsStaffListFilter
+from dangerdine.models import BusinessRatingLocation
+
+from .filters import (
+    BusinessRatingLocationFoodHygieneRatingListFilter,
+    BusinessRatingLocationLocationRouteCountListFilter,
+    UserIsActiveListFilter,
+    UserIsStaffListFilter,
+)
 
 if TYPE_CHECKING:
     from django.forms import ModelForm
@@ -92,3 +103,47 @@ class UserAdmin(DjangoUserAdmin):
             }
         )
         return super().get_form(*args, **kwargs)
+
+
+@admin.register(BusinessRatingLocation)
+class BusinessRatingLocationAdmin(ModelAdmin):  # type: ignore[type-arg]
+    # noinspection SpellCheckingInspection
+    """
+    Admin display configuration for :model:`dangerdine.businessratinglocation` models.
+
+    This adds the functionality to provide custom display configurations on the
+    list, create & update pages.
+    """
+
+    fields = ("name", "food_hygiene_rating", "location", "location_route_count")
+    list_display = ("name", "food_hygiene_rating", "location", "location_route_count")
+    list_display_links = ("name",)
+    list_editable = ("food_hygiene_rating", "location")
+    list_filter = (
+        BusinessRatingLocationFoodHygieneRatingListFilter,
+        BusinessRatingLocationLocationRouteCountListFilter
+    )
+    readonly_fields = ("location_route_count",)
+    search_fields = ("name",)
+    ordering = ("food_hygiene_rating", "name")
+    search_help_text = _("Search for a Business Rating Location's name")
+
+    def get_queryset(self, request: HttpRequest) -> QuerySet[BusinessRatingLocation]:
+        # noinspection SpellCheckingInspection
+        """
+        Return a QuerySet of all :model:`dangerdine.businessratinglocation` model instances.
+
+        These are the instances that can be edited by the admin site. This is used by
+        changelist_view.
+        """
+        return super().get_queryset(request).annotate(  # type: ignore[no-any-return]
+            location_route_count=models.Count("location_routes", distinct=True)
+        )
+
+    @admin.display(description=_("Number of Location Routes"), ordering="location_route_count")
+    def location_route_count(self, obj: BusinessRatingLocation | None) -> int | str:
+        """Return the number of location routes this BusinessRatingLocation is a part of."""
+        if not obj:
+            return admin.site.empty_value_display
+
+        return obj.location_route_count  # type: ignore[no-any-return,attr-defined]
