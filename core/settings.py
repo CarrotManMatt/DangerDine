@@ -114,6 +114,7 @@ SITE_ID = 1
 
 # noinspection SpellCheckingInspection
 INSTALLED_APPS = [
+    "dangerdine.apps.DangerDineConfig",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -172,7 +173,7 @@ AUTH_PASSWORD_VALIDATORS = [
     {
         "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
         "OPTIONS": {
-            "user_attributes": ("username",),
+            "user_attributes": ("email",),
             "max_similarity": env("PASSWORD_SIMILARITY_TO_USER_ATTRIBUTES")
         }
     },
@@ -186,6 +187,7 @@ AUTH_PASSWORD_VALIDATORS = [
         "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
     },
 ]
+AUTH_USER_MODEL = "dangerdine.User"
 
 
 # Internationalization, Language & Time settings
