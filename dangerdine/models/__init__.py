@@ -25,6 +25,14 @@ class User(CustomBaseModel, AbstractBaseUser, PermissionsMixin):
         object_name="User",
         attribute_name="normalize_username"
     )
+    groups = AttributeDeleter(  # type: ignore[assignment]
+        object_name="User",
+        attribute_name="groups"
+    )
+    get_group_permissions = AttributeDeleter(  # type: ignore[assignment]
+        object_name="User",
+        attribute_name="get_group_permissions"
+    )
 
 
     email = models.EmailField(
@@ -60,6 +68,7 @@ class User(CustomBaseModel, AbstractBaseUser, PermissionsMixin):
     objects = UserManager()
 
     USERNAME_FIELD: Final[str] = "email"
+    EMAIL_FIELD: Final[str] = "email"
 
     class Meta:
         verbose_name = _("User")

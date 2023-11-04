@@ -114,9 +114,9 @@ SITE_ID = 1
 
 # noinspection SpellCheckingInspection
 INSTALLED_APPS = [
-    "dangerdine.apps.DangerDineConfig",
     "django.contrib.admin",
     "django.contrib.auth",
+    "dangerdine.apps.DangerDineConfig",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
