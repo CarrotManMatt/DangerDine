@@ -1,6 +1,6 @@
 # DangerDine
 
-An exciting web app that suggests restaurants to eat at in you local area that have a very poor food hygiene rating
+An exciting web app that suggests restaurants to eat at in your local area that have a very poor food hygiene rating
 
 ![Tests](https://github.com/CarrotManMatt/DangerDine/actions/workflows/tests.yml/badge.svg)
 
