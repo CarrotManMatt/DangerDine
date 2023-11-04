@@ -1,5 +1,6 @@
 import requests
-
+import openrouteservice
+from openrouteservice import convert
 
 def all_businesses() -> list[dict[str, str|float]]:
     """Very epic method. Uses the food ratings
@@ -128,3 +129,27 @@ def all_businesses() -> list[dict[str, str|float]]:
             number_of_places = 5000
 
     return all_shit
+
+def getPolyLinePoints() -> list[list[int,int]]:
+
+    # These coords will be replaced with the current location and then the subsequent restaurant locations
+    coords = (
+    (-1.176063, 52.955102), (-1.185526, 52.956178), (-1.181988, 52.954766), (-1.189677385249408, 52.956252340447975))
+
+    client = openrouteservice.Client(key='5b3ce3597851110001cf6248dd014f6c26da4099a9ef15690af0e722')
+
+    ##print(client.directions(coords))
+
+    geometry = client.directions(coords)['routes'][0]['geometry']
+
+    ##print(geometry)
+
+    geometry = (convert.decode_polyline(geometry))['coordinates']
+
+    # Annoying but it produces Long Lat and leaflet wants Lat Long, so needs to be swapped
+    i = 0
+    while i < len(geometry):
+        geometry[i][1], geometry[i][0] = geometry[i][0], geometry[i][1]
+        i += 1
+
+    return geometry
