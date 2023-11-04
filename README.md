@@ -15,7 +15,7 @@ DangerDine uses Python 3.11, please ensure you have this version installed (down
 Ensure that you have [Poetry](https://python-poetry.org/) installed (instructions can be found [here](https://python-poetry.org/docs/#installation)), then navigate to the root folder and run the following command:
 
 ```shell
-poetry install --no-root
+poetry install --no-root && poetry run pre-commit install
 ```
 
 Poetry will complain if you do not have the correct Python version installed. Follow the steps in [Installing](#Installing) to get the correct version
