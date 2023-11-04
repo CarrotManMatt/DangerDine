@@ -11,8 +11,7 @@ from typing import Sequence
 from django.core.exceptions import ImproperlyConfigured
 from environ import Env
 
-
-BASE_DIR = Path(__file__).resolve().parent.parent  # NOTE: Build paths inside the project like this: BASE_DIR / "subdir"
+BASE_DIR: Path = Path(__file__).resolve().parent.parent  # NOTE: Build paths inside the project like this: BASE_DIR / "subdir"
 
 Env.read_env(BASE_DIR / ".env")
 env: Env = Env(

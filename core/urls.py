@@ -1,10 +1,10 @@
-"""
-Root URL conf for DangerDine project.
-"""
+"""Root URL conf for DangerDine project."""
 
 import django
 from django.contrib import admin
-from django.urls import URLResolver, URLPattern
+from django.urls import URLPattern, URLResolver
+
+from core.views import AdminDocsRedirectView
 
 urlpatterns: list[URLResolver | URLPattern] = [
     django.urls.path(
