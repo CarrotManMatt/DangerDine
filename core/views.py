@@ -6,7 +6,7 @@ from typing import Any, TypeAlias
 from django import urls as django_urls
 from django.views.generic import RedirectView
 
-RedirectURLArgs: TypeAlias = str | Sequence | dict[str, Any] | None | Callable
+RedirectURLArgs: TypeAlias = str | Sequence | dict[str, Any] | None | Callable[..., Any]
 
 
 class AdminDocsRedirectView(RedirectView):
