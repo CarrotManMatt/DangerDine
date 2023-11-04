@@ -7,7 +7,7 @@ on:
     branches: [ "main" ]
 
 jobs:
-  pytest:
+  django-test:
     runs-on: ubuntu-latest
 
     steps:
@@ -39,7 +39,7 @@ jobs:
         run: poetry install --no-interaction --no-root
 
       - name: Run pytest
-        run: poetry run pytest
+        run: poetry run python manage.py test
 
   mypy:
     runs-on: ubuntu-latest
