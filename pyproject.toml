@@ -142,7 +142,6 @@ task-tags = [
 ]
 extend-exclude = [
     "dangerdine/**/migrations/",
-    "dangerdine/utils.py",
     ".idea",
     ".pytest_cache",
     ".mypy_cache",
