@@ -122,6 +122,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django.contrib.sites",
+    "django.contrib.gis",
     "django.contrib.admindocs",
     "rangefilter"
 ]
@@ -157,10 +158,9 @@ TEMPLATES = [
 
 
 # Database settings
-
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
+        "ENGINE": "django.contrib.gis.db.backends.spatialite",
         "NAME": BASE_DIR / "db.sqlite3"
     }
 }

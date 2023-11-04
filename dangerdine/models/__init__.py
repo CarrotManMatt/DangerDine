@@ -3,8 +3,8 @@ from typing import TYPE_CHECKING, Any, Final
 from django.conf import settings
 from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
+from django.contrib.gis.db import models
 from django.core.validators import MinLengthValidator, RegexValidator
-from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 from .managers import UserManager
@@ -118,6 +118,9 @@ class BusinessRatingLocation(CustomBaseModel):
     food_hygiene_rating = models.PositiveIntegerField(
         _("Food Hygiene Rating"),
         choices=FoodHygieneRating.choices
+    )
+    location = models.PointField(
+        _("Location")
     )
 
     class Meta:
