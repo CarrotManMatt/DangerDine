@@ -9,7 +9,19 @@ An exciting web app that suggests restaurants to eat at in your local area that 
 ## Installing
 
 DangerDine uses Python 3.11, please ensure you have this version installed (downloads available [here](https://www.python.org/downloads/release/python-3116/#Files))
-We also use a spacial database so follow these steps to install:  https://docs.djangoproject.com/en/4.2/ref/contrib/gis/install/spatialite/ & https://docs.djangoproject.com/en/4.2/ref/contrib/gis/install/geolibs/
+
+### Geospatial Database
+
+For windows install using these 3 links (in order):
+* https://www.gaia-gis.it/gaia-sins/libspatialite-sources/libspatialite-5.1.0.zip
+* https://trac.osgeo.org/osgeo4w/ (Select Express Web-GIS Install and click next. In the ‘Select Packages’ list, ensure that GDAL is selected. If any other packages are enabled by default, they are not required by GeoDjango and may be unchecked safely)
+* https://docs.djangoproject.com/en/4.2/ref/contrib/gis/install/#modify-windows-environment
+
+For linux install using this command:
+
+```shell
+sudo apt install libsqlite3-mod-spatialite && sudo apt install binutils libproj-dev gdal-bin
+```
 
 ### Dependencies
 
