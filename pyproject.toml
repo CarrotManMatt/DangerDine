@@ -148,8 +148,3 @@ max-branches = 19
 
 [tool.ruff.pyupgrade]
 keep-runtime-typing = true
-
-
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
