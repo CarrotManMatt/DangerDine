@@ -14,7 +14,8 @@ from django.utils import deconstruct
 if TYPE_CHECKING:
     from dangerdine.models import User
 
-get_user_model: Callable[[], "User"] = auth.get_user_model  # type: ignore[assignment] # NOTE: Adding external package functions to the global scope for frequent usage
+# NOTE: Adding external package functions to the global scope for frequent usage
+get_user_model: Callable[[], "User"] = auth.get_user_model  # type: ignore[assignment]
 deconstructible = deconstruct.deconstructible
 
 

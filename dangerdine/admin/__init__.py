@@ -1,5 +1,6 @@
 """Admin configurations for models in dangerdine app."""
 
+from collections.abc import Callable
 from typing import TYPE_CHECKING, Any
 
 from django.contrib import admin, auth
@@ -8,12 +9,15 @@ from django.contrib.auth.models import Group
 from django.utils.translation import gettext_lazy as _
 from rangefilter.filters import DateTimeRangeFilterBuilder
 
-from dangerdine.models import User
-
 from .filters import UserIsActiveListFilter, UserIsStaffListFilter
 
 if TYPE_CHECKING:
     from django.forms import ModelForm
+
+    from dangerdine.models import User
+
+# NOTE: Adding external package functions to the global scope for frequent usage
+get_user_model: Callable[[], "User"] = auth.get_user_model  # type: ignore[assignment]
 
 admin.site.site_header = f"""DangerDine {_("Administration")}"""
 admin.site.site_title = f"""DangerDine {_("Admin")}"""
@@ -23,7 +27,7 @@ admin.site.empty_value_display = "- - - - -"
 admin.site.unregister(Group)
 
 
-@admin.register(User)
+@admin.register(get_user_model())  # type: ignore[arg-type]
 class UserAdmin(DjangoUserAdmin):
     """
     Admin display configuration for :model:`dangerdine.user` models.
@@ -63,7 +67,7 @@ class UserAdmin(DjangoUserAdmin):
     search_help_text = _("Search for a user's Email Address")
 
     @admin.display(description="Last Login", ordering="last_login")
-    def last_login(self, obj: User | None) -> str:
+    def last_login(self, obj: "User | None") -> str:
         """Return the custom formatted string representation of the last_login field."""
         if not obj or not obj.last_login:
             return admin.site.empty_value_display

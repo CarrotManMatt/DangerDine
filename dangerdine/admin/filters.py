@@ -6,10 +6,10 @@ from django.db.models import QuerySet
 from django.http import HttpRequest
 from django.utils.translation import gettext_lazy as _
 
-from dangerdine.models import User
-
 if TYPE_CHECKING:
     from django.contrib.admin import ModelAdmin
+
+    from dangerdine.models import User
 
 
 class UserIsStaffListFilter(admin.SimpleListFilter):
@@ -22,7 +22,7 @@ class UserIsStaffListFilter(admin.SimpleListFilter):
         """Return the sequence of url & verbose filter names of the possible lookups."""
         return ("1", _("Is Staff Member")), ("0", _("Is Not Staff Member"))
 
-    def queryset(self, request: HttpRequest, queryset: QuerySet[User]) -> QuerySet[User]:  # noqa: ARG002
+    def queryset(self, request: HttpRequest, queryset: QuerySet["User"]) -> QuerySet["User"]:  # noqa: ARG002
         """Return the filtered queryset according to the given url lookup."""
         if self.value() == "1":
             return queryset.filter(is_staff=True)
@@ -41,7 +41,7 @@ class UserIsActiveListFilter(admin.SimpleListFilter):
         """Return the sequence of url & verbose filter names of the possible lookups."""
         return ("1", _("Is Active")), ("0", _("Is Not Active"))
 
-    def queryset(self, request: HttpRequest, queryset: QuerySet[User]) -> QuerySet[User]:  # noqa: ARG002
+    def queryset(self, request: HttpRequest, queryset: QuerySet["User"]) -> QuerySet["User"]:  # noqa: ARG002
         """Return the filtered queryset according to the given url lookup."""
         if self.value() == "1":
             return queryset.filter(is_active=True)

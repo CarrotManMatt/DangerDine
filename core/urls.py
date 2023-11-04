@@ -8,6 +8,7 @@ from django.views.generic import RedirectView
 from core.views import AdminDocsRedirectView
 
 urlpatterns: list[URLResolver | URLPattern] = [
+    # TODO: Remove Group model from admin docs
     django.urls.path(
         r"admin/doc/",
         django.urls.include("django.contrib.admindocs.urls")
