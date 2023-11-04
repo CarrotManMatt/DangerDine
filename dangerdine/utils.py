@@ -2,7 +2,8 @@ import requests
 import openrouteservice
 from openrouteservice import convert
 
-def all_businesses() -> list[dict[str, str|float]]:
+
+def all_businesses() -> list[dict[str, str | float]]:
     """Very epic method. Uses the food ratings
     API to get a list of all businesses rated 0 or 1,
     then selects only the specific business types needed,
@@ -130,8 +131,8 @@ def all_businesses() -> list[dict[str, str|float]]:
 
     return all_shit
 
-def getPolyLinePoints() -> list[list[int,int]]:
 
+def getPolyLinePoints() -> list[list[int,int]]:
     # These coords will be replaced with the current location and then the subsequent restaurant locations
     coords = (
     (-1.176063, 52.955102), (-1.185526, 52.956178), (-1.181988, 52.954766), (-1.189677385249408, 52.956252340447975))
@@ -140,7 +141,7 @@ def getPolyLinePoints() -> list[list[int,int]]:
 
     ##print(client.directions(coords))
 
-    geometry = client.directions(coords)['routes'][0]['geometry']
+    geometry = client.directions(coords, optimize_waypoints=True)['routes'][0]['geometry']
 
     ##print(geometry)
 
