@@ -1,0 +1,155 @@
+[tool.poetry]
+name = "danger-dine"
+version = "0.0.1"
+description = "An exciting web app that suggests restaurants to eat at in you local area that have a very poor food hygiene rating"
+authors = [
+    "CarrotManMatt <matt@carrotmanmatt.com>",
+    "CharlesESW",
+    "varnoisy",
+    "Donian960"
+]
+license = "GPL-3.0-or-later"
+readme = "README.md"
+repository = "https://github.com/CarrotManMatt/DangerDine.git"
+keywords = ["django"]
+classifiers = [
+    "Private :: Do Not Upload",
+    "Natural Language :: English",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3.11",
+    "Typing :: Typed",
+    "Topic :: Internet"
+]
+
+[tool.poetry.dependencies]
+python = "^3.12"
+django = "~4.2"
+
+[tool.poetry.group.dev.dependencies]
+mypy = "~1.6"
+django-stubs = {extras = ["compatible-mypy"], version = "~4.2"}
+pytest = "^7.4"
+pytest-subtests = "^0.11"
+ruff = "^0.1"
+setuptools = "*"  # NOTE: Required by pycharm
+
+[tool.mypy]
+plugins = ["mypy_django_plugin.main"]
+extra_checks = true
+warn_unused_configs = true
+disallow_untyped_calls = true
+disallow_untyped_defs = true
+check_untyped_defs = true
+disallow_any_generics = true
+disallow_untyped_decorators = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_return_any = true
+no_implicit_reexport = true
+strict_equality = true
+ignore_missing_imports = true
+warn_unreachable = true
+
+[tool.ruff]
+select = [
+    "E",
+    "F",
+    "W",
+    "C",
+    "I",
+    "N",
+    "D",
+    "UP",
+    "YTT",
+    "ANN",
+    "ASYNC",
+    "S",
+    "BLE",
+    "FBT",
+    "B",
+    "A",
+    "COM",
+    "DTZ",
+    "T",
+    "DJ",
+    "EM",
+    "G",
+    "INP",
+    "PIE",
+    "PT",
+    "Q",
+    "RSE",
+    "RET",
+    "SLF",
+    "SLOT",
+    "SIM",
+    "TID",
+    "TCH",
+    "ARG",
+    "PTH",
+    "TD",
+    "FIX",
+    "ERA",
+    "PGH",
+    "PL",
+    "TRY",
+    "FLY",
+    "PERF",
+    "RUF"
+]
+ignore = [
+    "N818",
+    "N806",
+    "D203",
+    "D212",
+    "ANN101",
+    "ANN102",
+    "ANN401",
+    "S101",
+    "S311",
+    "COM812",
+    "Q003",
+    "TD002",
+    "TD003",
+    "PLR0911",
+    "PLR0915",
+    "TRY400"
+]
+line-length = 95
+fixable = ["I001", "TCH", "F401", "RUF100"]
+target-version ="py311"
+task-tags = [
+    "TODO",
+    "FIXME",
+    "HACK",
+    "BUG",
+    "NOBUG",
+    "REQ",
+    "IDEA",
+    "NOTE",
+    "ISSUE"
+]
+extend-exclude = ["db/**/migrations/", ".idea", ".pytest_cache", "__pycache__"]
+
+[tool.ruff.flake8-pytest-style]
+parametrize-values-type = "tuple"
+
+[tool.ruff.mccabe]
+max-complexity = 18
+
+[tool.ruff.pycodestyle]
+ignore-overlong-task-comments = true
+max-doc-length = 95
+
+[tool.ruff.pylint]
+allow-magic-value-types = ["str", "bytes", "int"]
+max-args = 7
+max-branches = 19
+
+[tool.ruff.pyupgrade]
+keep-runtime-typing = true
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
