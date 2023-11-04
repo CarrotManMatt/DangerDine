@@ -110,22 +110,36 @@ def all_businesses() -> list[dict[str, str | float]]:
     return all_shit
 
 
-def getPolyLinePoints() -> list[tuple[int,int]]:
+def getPolyLinePoints() -> list[list[float]]:
     # These coords will be replaced with the current location and then the subsequent restaurant locations
-    coords = (
-    (-1.176063, 52.955102), (-1.185526, 52.956178), (-1.181988, 52.954766), (-1.189677385249408, 52.956252340447975))
+    coords = [(-1.176063, 52.955102),
+              (-1.185526, 52.956178),
+              (-1.181988, 52.954766),
+              (-1.189677385249408, 52.956252340447975)]
 
+    numcoords = len(coords)
+
+    # Tests all possible end points to find the most optimal
+    j = 1
+    smallestlist = []
+    while j < (numcoords - 1):
+        tempcoords = coords
+        tempcoords[numcoords - 1], tempcoords[j] = tempcoords[j], tempcoords[numcoords - 1]
+        client = openrouteservice.Client(key='5b3ce3597851110001cf6248dd014f6c26da4099a9ef15690af0e722')
+        trythisone = client.directions(tempcoords, optimize_waypoints=True)['routes'][0]['summary']['distance']
+        smallestlist.append(trythisone)
+        j += 1
+
+    j = smallestlist.index(min(smallestlist)) + 1
+
+    coords[numcoords - 1], coords[j] = coords[j], coords[numcoords - 1]
     client = openrouteservice.Client(key='5b3ce3597851110001cf6248dd014f6c26da4099a9ef15690af0e722')
-
-    ##print(client.directions(coords))
-
     geometry = client.directions(coords, optimize_waypoints=True)['routes'][0]['geometry']
 
-    ##print(geometry)
+    ## print(geometry)
 
     geometry = (convert.decode_polyline(geometry))['coordinates']
 
-    # Annoying but it produces Long Lat and leaflet wants Lat Long, so needs to be swapped
     i = 0
     while i < len(geometry):
         geometry[i][1], geometry[i][0] = geometry[i][0], geometry[i][1]
