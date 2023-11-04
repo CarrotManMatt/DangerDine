@@ -12,7 +12,7 @@ class DangerDineConfig(AppConfig):
 
     def ready(self) -> None:
         """
-        Ensures the signal handlers within this app are loaded and waiting for signals.
+        Ensure the signal handlers within this app are loaded and waiting for signals.
 
         This ready function should be called whenever this config class is imported.
         """

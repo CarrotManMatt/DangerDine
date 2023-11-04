@@ -2,6 +2,4 @@
 
 
 def ready() -> None:
-    """ Initialise this module when importing & starting signal listeners. """
-
-    pass
+    """Initialise this module when importing & starting signal listeners."""
