@@ -39,7 +39,7 @@ jobs:
         run: poetry install --no-interaction --no-root
 
       - name: Set SECRET_KEY
-        run: export SECRET_KEY="$(printf "from django.core.management.utils import get_random_secret_key\nprint(get_random_secret_key())" | poetry run python3)"
+        run: echo "SECRET_KEY="$(printf "from django.core.management.utils import get_random_secret_key\nprint(get_random_secret_key())" | poetry run python3)"" >> "$GITHUB_ENV"
 
       - name: Run pytest
         run: poetry run python manage.py test
@@ -76,7 +76,7 @@ jobs:
         run: poetry install --no-interaction --no-root
 
       - name: Set SECRET_KEY
-        run: export SECRET_KEY="$(printf "from django.core.management.utils import get_random_secret_key\nprint(get_random_secret_key())" | poetry run python3)"
+        run: echo "SECRET_KEY="$(printf "from django.core.management.utils import get_random_secret_key\nprint(get_random_secret_key())" | poetry run python3)"" >> "$GITHUB_ENV"
 
       - name: Run mypy
         run: poetry run mypy .
