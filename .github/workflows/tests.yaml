@@ -38,6 +38,9 @@ jobs:
         if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
         run: poetry install --no-interaction --no-root
 
+      - name: Set SECRET_KEY
+        run: export SECRET_KEY="$(printf "from django.core.management.utils import get_random_secret_key\nprint(get_random_secret_key())" | poetry run python3)"
+
       - name: Run pytest
         run: poetry run python manage.py test
 
@@ -71,6 +74,9 @@ jobs:
       - name: Install dependencies
         if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
         run: poetry install --no-interaction --no-root
+
+      - name: Set SECRET_KEY
+        run: export SECRET_KEY="$(printf "from django.core.management.utils import get_random_secret_key\nprint(get_random_secret_key())" | poetry run python3)"
 
       - name: Run mypy
         run: poetry run mypy .
