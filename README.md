@@ -1,5 +1,7 @@
 # DangerDine
 
+"It will boost your immune system!"
+
 An exciting web app that suggests restaurants to eat at in your local area that have a very poor food hygiene rating
 
 [![Tests](https://github.com/CarrotManMatt/DangerDine/actions/workflows/tests.yaml/badge.svg?branch=main)](https://github.com/CarrotManMatt/DangerDine/actions/workflows/tests.yaml)
