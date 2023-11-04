@@ -30,6 +30,7 @@ confusable_homoglyphs = "^3.2"
 tldextract = "^5.0"
 requests = "^2.31"
 openrouteservice = "^2.3.3"
+docutils = "^0.20"
 
 [tool.poetry.group.dev.dependencies]
 pre-commit = "^3.5"
@@ -141,6 +142,7 @@ task-tags = [
 ]
 extend-exclude = [
     "dangerdine/**/migrations/",
+    "dangerdine/utils.py",
     ".idea",
     ".pytest_cache",
     ".mypy_cache",
