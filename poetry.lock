@@ -356,6 +356,20 @@ files = [
 setuptools = "*"
 
 [[package]]
+name = "openrouteservice"
+version = "2.3.3"
+description = "Python client for requests to openrouteservice API services"
+optional = false
+python-versions = "*"
+files = [
+    {file = "openrouteservice-2.3.3-py3-none-any.whl", hash = "sha256:a84fe298b1de7a4fb1d8aa19798687f4f66fe212e5206667c703ca2c7e5de0ce"},
+    {file = "openrouteservice-2.3.3.tar.gz", hash = "sha256:3696e0428533cf6bbcb9586c3bcfca7b5e7aaa269650ff16a862a7f61b857f4a"},
+]
+
+[package.dependencies]
+requests = ">=2.0"
+
+[[package]]
 name = "platformdirs"
 version = "3.11.0"
 description = "A small Python package for determining appropriate platform-specific dirs, e.g. a \"user data dir\"."
@@ -667,4 +681,4 @@ test = ["covdefaults (>=2.3)", "coverage (>=7.2.7)", "coverage-enable-subprocess
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "e56ecbbcef0152cf4f65c498112b5cf57e8e3fe6ebdb229f6bf8aa9df3b9ef9b"
+content-hash = "39b87f43e115abddb09f0c0e2aef2d3c7355ae4b32c6206b209e8089a7bbf9e8"
