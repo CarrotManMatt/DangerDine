@@ -20,6 +20,10 @@ poetry install --no-root && poetry run pre-commit install
 
 Poetry will complain if you do not have the correct Python version installed. Follow the steps in [Installing](#Installing) to get the correct version
 
+## Environment Variables
+
+To run the program you may need to set some environment variables (E.g. `SECRET_KEY`), the required ones are specified in `.example.env` and must be placed into a file called `.env` in the project root.
+
 ## Contributions
 
 Contributions are welcome. If you want to contribute, please raise a PR, and we'll review, test and (likely) merge it. Please comment on issues you'd like to work on for assignment to prevent duplication of work. If you find any bugs/problems or have any feature suggestion, please raise an issue.
