@@ -127,7 +127,7 @@ class BusinessRatingLocation(CustomBaseModel):
     location_routes: models.Manager["LocationRoute"]
 
     class Meta:
-        verbose_name = _("Restaurant")
+        verbose_name = _("Business Rating Location")
 
     def __str__(self) -> str:
         return self.name

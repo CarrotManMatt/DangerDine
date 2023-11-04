@@ -7,6 +7,7 @@ from django.db import models
 from django.db.models import Model, QuerySet
 from django.http import HttpRequest
 from django.utils.translation import gettext_lazy as _
+from rangefilter.filters import NumericRangeFilter
 
 from dangerdine.models import BusinessRatingLocation
 
@@ -61,7 +62,7 @@ class BusinessRatingLocationLocationRouteCountListFilter(admin.ListFilter):
     """
 
     def __new__(cls, request: HttpRequest, params: dict[str, str], model: type[Model], model_admin: ModelAdmin) -> admin.ListFilter:  # type: ignore[type-arg,misc] # noqa: E501
-        return NumericRangeFilter(  # type: ignore[no-any-return,name-defined] # noqa: F821
+        return NumericRangeFilter(  # type: ignore[no-any-return]
             models.PositiveIntegerField(verbose_name=_("Number of Location Routes")),
             request,
             params,
