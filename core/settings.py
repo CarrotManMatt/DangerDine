@@ -76,7 +76,7 @@ LOGGING = {
     "handlers": {
         "dangerdine": {
             "class": "logging.StreamHandler",
-            "formatter": "smartserve"
+            "formatter": "dangerdine"
         },
         "web_server": {
             "class": "logging.StreamHandler",
@@ -93,6 +93,9 @@ LOGGING = {
 # Web Server settings
 
 ROOT_URLCONF = "core.urls"
+# noinspection PyUnresolvedReferences
+STATIC_ROOT = "staticfiles/"
+STATIC_URL = "static/"
 # NOTE: Security Warning - The secret key is used for important secret stuff (keep the one used in production a secret!)
 SECRET_KEY = env("SECRET_KEY")
 CSRF_COOKIE_SECURE = True
@@ -127,6 +130,7 @@ MIDDLEWARE = [
 
 # Template settings
 
+# noinspection PyUnresolvedReferences
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
