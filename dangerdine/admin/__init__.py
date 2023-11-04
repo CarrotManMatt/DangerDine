@@ -4,6 +4,7 @@ from typing import TYPE_CHECKING, Any
 
 from django.contrib import admin, auth
 from django.contrib.auth.admin import UserAdmin as DjangoUserAdmin
+from django.contrib.auth.models import Group
 from django.utils.translation import gettext_lazy as _
 from rangefilter.filters import DateTimeRangeFilterBuilder
 
@@ -18,6 +19,8 @@ admin.site.site_header = f"""DangerDine {_("Administration")}"""
 admin.site.site_title = f"""DangerDine {_("Admin")}"""
 admin.site.index_title = _("Overview")
 admin.site.empty_value_display = "- - - - -"
+
+admin.site.unregister(Group)
 
 
 @admin.register(User)
@@ -46,9 +49,9 @@ class UserAdmin(DjangoUserAdmin):
             "classes": ("collapse",)
         })
     )
-    list_display = ("email", "is_staff", "is_active")
-    list_display_links = ("email",)
-    list_editable = ("email", "is_staff", "is_active")
+    list_display = ("id", "email", "is_staff", "is_active")
+    list_display_links = ("id", "email")
+    list_editable = ("is_staff", "is_active")
     list_filter = (
         UserIsStaffListFilter,
         UserIsActiveListFilter,
