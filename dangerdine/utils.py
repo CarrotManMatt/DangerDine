@@ -110,12 +110,12 @@ def all_businesses() -> list[dict[str, str | float]]:
     return all_shit
 
 
-def getPolyLinePoints() -> list[list[float]]:
-    # These coords will be replaced with the current location and then the subsequent restaurant locations
-    coords = [(-1.176063, 52.955102),
-              (-1.185526, 52.956178),
-              (-1.181988, 52.954766),
-              (-1.189677385249408, 52.956252340447975)]
+def getPolyLinePoints(coords: list[tuple[int, int]] | None = None) -> list[list[float]]:
+    if coords is None:
+        coords = [(-1.176063, 52.955102),
+                  (-1.185526, 52.956178),
+                  (-1.181988, 52.954766),
+                  (-1.189677385249408, 52.956252340447975)]
 
     numcoords = len(coords)
 
