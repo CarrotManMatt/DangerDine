@@ -6,7 +6,7 @@ An exciting web app that suggests restaurants to eat at in you local area that h
 
 ## Installing
 
-DangerDine uses Python 3.12, please ensure you have this version installed (downloads available [here](https://www.python.org/downloads/release/python-3120/#Files))
+DangerDine uses Python 3.11, please ensure you have this version installed (downloads available [here](https://www.python.org/downloads/release/python-3116/#Files))
 
 ### Dependencies
 
