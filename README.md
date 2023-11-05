@@ -13,7 +13,7 @@ DangerDine uses Python 3.11, please ensure you have this version installed (down
 ### Geospatial Database
 
 For windows install using these 3 links (in order):
-* https://www.gaia-gis.it/gaia-sins/libspatialite-sources/libspatialite-5.1.0.zip
+* http://www.gaia-gis.it/gaia-sins/windows-bin-x86
 * https://trac.osgeo.org/osgeo4w/ (Select Express Web-GIS Install and click next. In the ‘Select Packages’ list, ensure that GDAL is selected. If any other packages are enabled by default, they are not required by GeoDjango and may be unchecked safely)
 * https://docs.djangoproject.com/en/4.2/ref/contrib/gis/install/#modify-windows-environment
 
