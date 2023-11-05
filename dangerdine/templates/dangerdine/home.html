@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -18,7 +19,7 @@
     <nav class="navbar navbar-expand-sm bg-dark text-white" data-bs-toggle="modal" data-bs-target="#loginModal">
 
         <div class="container-fluid">
-            <img src="dangerdinelogo.png" class="navbar-brand" width="200" alt="DangerDine logo">
+            <img src="{% static 'dangerdine/dangerdinelogo.png' %}" class="navbar-brand" width="200" alt="DangerDine logo">
             <a class="btn btn-primary bg-danger float-right" href="#">Login</a>
         </div>
 
@@ -129,7 +130,7 @@
     <footer class="bg-dark text-secondary">
         <div class="row">
             <div class="col">
-                <img src="githublogo.png" width="50" alt="GitHub logo">
+                <img src="{% static 'dangerdine/githublogo.png' %}" width="50" alt="GitHub logo">
                 <a href="https://github.com/CarrotManMatt/DangerDine">Find us on GitHub!</a>
             </div>
             <div class="col">
