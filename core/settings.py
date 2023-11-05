@@ -20,6 +20,7 @@ env: Env = Env(
     PASSWORD_SIMILARITY_TO_USER_ATTRIBUTES=(float, 0.627)
 )
 
+GMAPS_API_KEY = env("GMAPS_API_KEY")
 
 # Production Vs Development settings
 
@@ -124,6 +125,7 @@ INSTALLED_APPS = [
     "django.contrib.sites",
     "django.contrib.gis",
     "django.contrib.admindocs",
+    "django_extensions",
     "rangefilter"
 ]
 MIDDLEWARE = [

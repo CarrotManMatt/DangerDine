@@ -110,7 +110,7 @@ class BusinessRatingLocation(CustomBaseModel):
         _("Name"),
         max_length=100,
         validators=[
-            RegexValidator(r"^(?![\s'-])(?!.*[\s'-]{2})[A-Za-z '-]+(?<![\s'-])\Z"),
+            RegexValidator(r"^(?![\s&\\'-])(?!.*[\s#\\-]{2})[A-Za-z #\\0-9&'-]+(?<![\s'-])\Z"),
             MinLengthValidator(2)
         ]
     )

@@ -18,5 +18,6 @@ repos:
           django-admin-rangefilter>=0.11,
           tldextract>=5.0,
           confusable_homoglyphs>=3.2,
-          types-requests>=2.31
+          types-requests>=2.31,
+          django_extensions>=3.2
         ]

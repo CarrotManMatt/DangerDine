@@ -1,10 +1,14 @@
 # type: ignore
 import requests
 import openrouteservice
+from django.conf import settings
 from openrouteservice import convert
+import googlemaps
+
+gmaps = googlemaps.Client(key=settings.GMAPS_API_KEY)
 
 
-def all_businesses() -> list[dict[str, str | float]]:
+def all_businesses() -> dict[str, str | float]:
     """Very epic method. Uses the food ratings
     API to get a list of all businesses rated 0 or 1,
     then selects only the specific business types needed,
@@ -16,11 +20,8 @@ def all_businesses() -> list[dict[str, str | float]]:
 
     needed_business_types = ["7844", "4613", "7840", "1", "7843"]
 
-    all_shit = []
-
     for bus_type in needed_business_types:
-
-        request = "https://api1-ratings.food.gov.uk/enhanced-search/en-GB/^/^/alpha/"+ bus_type +"/england/LessThanOrEqual1/1/1/1/json"
+        request = "https://api1-ratings.food.gov.uk/enhanced-search/en-GB/^/^/alpha/" + bus_type + "/england/LessThanOrEqual1/1/1/1/json"
 
         response = requests.get(request)
 
@@ -41,68 +42,51 @@ def all_businesses() -> list[dict[str, str | float]]:
 
             loops += 1
 
-            request = "https://api1-ratings.food.gov.uk/enhanced-search/en-GB/^/^/alpha/"+ bus_type +"/england/LessThanOrEqual1/1/"+ str(loops) +"/"+ str(number_of_places) +"/json"
+            request = "https://api1-ratings.food.gov.uk/enhanced-search/en-GB/^/^/alpha/" + bus_type + "/england/LessThanOrEqual1/1/" + str(loops) + "/" + str(number_of_places) + "/json"
 
             response = requests.get(request)
 
             response_dict = response.json()
 
             for i in range(number_of_places):
+                if response_dict["FHRSEstablishment"]["EstablishmentCollection"]["EstablishmentDetail"][i]["BusinessType"] in valid_categories:
+                    temp_dict = {"Name": response_dict["FHRSEstablishment"]["EstablishmentCollection"]["EstablishmentDetail"][i]["BusinessName"],
+                                 "Rating": response_dict["FHRSEstablishment"]["EstablishmentCollection"]["EstablishmentDetail"][i]["RatingValue"],
+                                 "Longitude": 0.0,
+                                 "Latitude": 0.0}
+                    if temp_dict["Name"][0].isdigit():
+                        print(temp_dict["Name"])
 
-                try:
+                    full_address = "" if response_dict["FHRSEstablishment"]["EstablishmentCollection"]["EstablishmentDetail"][i]["BusinessName"] is None else response_dict["FHRSEstablishment"]["EstablishmentCollection"]["EstablishmentDetail"][i]["BusinessName"]
+                    if response_dict["FHRSEstablishment"]["EstablishmentCollection"]["EstablishmentDetail"][i]["AddressLine1"] is not None:
+                        full_address = full_address + " " + response_dict["FHRSEstablishment"]["EstablishmentCollection"]["EstablishmentDetail"][i]["AddressLine1"]
+                    if response_dict["FHRSEstablishment"]["EstablishmentCollection"]["EstablishmentDetail"][i]["AddressLine2"] is not None:
+                        full_address = full_address + " " + response_dict["FHRSEstablishment"]["EstablishmentCollection"]["EstablishmentDetail"][i]["AddressLine2"]
+                    if response_dict["FHRSEstablishment"]["EstablishmentCollection"]["EstablishmentDetail"][i]["AddressLine3"] is not None:
+                        full_address = full_address + " " + response_dict["FHRSEstablishment"]["EstablishmentCollection"]["EstablishmentDetail"][i]["AddressLine3"]
+                    if response_dict["FHRSEstablishment"]["EstablishmentCollection"]["EstablishmentDetail"][i]["AddressLine4"] is not None:
+                        full_address = full_address + " " + response_dict["FHRSEstablishment"]["EstablishmentCollection"]["EstablishmentDetail"][i]["AddressLine4"]
+                    if response_dict["FHRSEstablishment"]["EstablishmentCollection"]["EstablishmentDetail"][i]["PostCode"] is not None:
+                        full_address = full_address + " " + response_dict["FHRSEstablishment"]["EstablishmentCollection"]["EstablishmentDetail"][i]["PostCode"]
 
-                    if response_dict["FHRSEstablishment"]["EstablishmentCollection"]["EstablishmentDetail"][i]["BusinessType"] in valid_categories:
+                    full_address = full_address.strip()
+                    if not full_address:
+                        print(full_address)
 
-                        valid = True
+                    geocode_result = gmaps.geocode(full_address)
 
-                        temp_dict = {"Name": response_dict["FHRSEstablishment"]["EstablishmentCollection"]["EstablishmentDetail"][i]["BusinessName"],
-                                     "Rating": response_dict["FHRSEstablishment"]["EstablishmentCollection"]["EstablishmentDetail"][i]["RatingValue"],
-                                     "Longitude": 0.0,
-                                     "Latitude": 0.0}
+                    if geocode_result:
+                        temp_dict["Longitude"] = float(geocode_result[0]["geometry"]["location"]["lng"])
+                        temp_dict["Latitude"] = float(geocode_result[0]["geometry"]["location"]["lat"])
 
-                        full_address = ""
-                        if response_dict["FHRSEstablishment"]["EstablishmentCollection"]["EstablishmentDetail"][i]["AddressLine1"] != None:
-                            full_address = full_address + " " + response_dict["FHRSEstablishment"]["EstablishmentCollection"]["EstablishmentDetail"][i]["AddressLine1"]
-                        if response_dict["FHRSEstablishment"]["EstablishmentCollection"]["EstablishmentDetail"][i]["AddressLine2"] != None:
-                            full_address = full_address + " " + response_dict["FHRSEstablishment"]["EstablishmentCollection"]["EstablishmentDetail"][i]["AddressLine2"]
-                        if response_dict["FHRSEstablishment"]["EstablishmentCollection"]["EstablishmentDetail"][i]["AddressLine3"] != None:
-                            full_address = full_address + " " + response_dict["FHRSEstablishment"]["EstablishmentCollection"]["EstablishmentDetail"][i]["AddressLine3"]
-                        if response_dict["FHRSEstablishment"]["EstablishmentCollection"]["EstablishmentDetail"][i]["AddressLine4"] != None:
-                            full_address = full_address + " " + response_dict["FHRSEstablishment"]["EstablishmentCollection"]["EstablishmentDetail"][i]["AddressLine4"]
-
+                    else:
                         try:
+                            temp_dict["Longitude"] = float(response_dict["FHRSEstablishment"]["EstablishmentCollection"]["EstablishmentDetail"][i]["Geocode"]["Longitude"])
+                            temp_dict["Latitude"] = float(response_dict["FHRSEstablishment"]["EstablishmentCollection"]["EstablishmentDetail"][i]["Geocode"]["Longitude"])
+                        except (ValueError, TypeError):
+                            continue
 
-                            while full_address[0] == " ":
-                                full_address = full_address[1:]
-
-                            temp = full_address.replace(" ", "+")
-
-                            request = "https://geocode.maps.co/search?q=" + temp
-
-                            new_request = requests.get(request)
-
-                            new_request_dict = new_request.json()
-
-                            if new_request_dict != []:
-
-                                temp_dict["Longitude"] = float(new_request_dict[0]["lon"])
-                                temp_dict["Latitude"] = float(new_request_dict[0]["lat"])
-
-                            else:
-
-                                temp_dict["Longitude"] = float(response_dict["FHRSEstablishment"]["EstablishmentCollection"]["EstablishmentDetail"][i]["Geocode"]["Longitude"])
-                                temp_dict["Latitude"] = float(response_dict["FHRSEstablishment"]["EstablishmentCollection"]["EstablishmentDetail"][i]["Geocode"]["Longitude"])
-
-                        except:
-
-                            valid = False
-
-                        if valid == True:
-
-                            all_shit.append(temp_dict)
-
-                except:
-                    break
+                    yield temp_dict
 
             number_remaining -= number_of_places
 
@@ -111,8 +95,6 @@ def all_businesses() -> list[dict[str, str | float]]:
             if number_of_places > 5000:
                 number_of_places = 5000
 
-    return all_shit
-
 
 def getPolyLinePoints(coords: list[tuple[int, int]]) -> list[list[float]]:
 
@@ -120,7 +102,6 @@ def getPolyLinePoints(coords: list[tuple[int, int]]) -> list[list[float]]:
     while k < len(coords):
         coords[k] = (coords[k][1], coords[k][0])
         k += 1
-
 
     numcoords = len(coords)
     # Tests all possible end points to find the most optimal

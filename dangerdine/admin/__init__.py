@@ -140,8 +140,19 @@ class BusinessRatingLocationAdmin(ModelAdmin):  # type: ignore[type-arg]
     list, create & update pages.
     """
 
-    fields = ("name", "food_hygiene_rating", "location", "location_route_count")
-    list_display = ("name", "food_hygiene_rating", "location_route_count", "location")
+    fields = (
+        "name",
+        "food_hygiene_rating",
+        ("raw_location", "location"),
+        "location_route_count"
+    )
+    list_display = (
+        "name",
+        "food_hygiene_rating",
+        "location_route_count",
+        "raw_location",
+        "location"
+    )
     list_display_links = ("name",)
     list_editable = ("food_hygiene_rating", "location")
     list_filter = (
@@ -149,7 +160,7 @@ class BusinessRatingLocationAdmin(ModelAdmin):  # type: ignore[type-arg]
         BusinessRatingLocationLocationRouteCountListFilter
     )
     inlines = (BusinessRatingLocationLocationRoutesInline,)
-    readonly_fields = ("location_route_count",)
+    readonly_fields = ("raw_location", "location_route_count")
     search_fields = ("name",)
     ordering = ("food_hygiene_rating", "name")
     search_help_text = _("Search for a Business Rating Location's name")
@@ -165,6 +176,14 @@ class BusinessRatingLocationAdmin(ModelAdmin):  # type: ignore[type-arg]
         return super().get_queryset(request).annotate(  # type: ignore[no-any-return]
             location_route_count=models.Count("location_routes", distinct=True)
         )
+
+    @admin.display(description=_("Raw Location Coordinated"))
+    def raw_location(self, obj: BusinessRatingLocation | None) -> str:
+        """Return the location coordinated of this BusinessRatingLocation."""
+        if not obj:
+            return admin.site.empty_value_display
+
+        return f"({obj.location.x}, {obj.location.y})"
 
     @admin.display(description=_("Number of Location Routes"), ordering="location_route_count")
     def location_route_count(self, obj: BusinessRatingLocation | None) -> int | str:
