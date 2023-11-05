@@ -85,6 +85,10 @@ Wow!
 <script>
 const map = L.map('map').setView({{ route_points.1 }}, 16);
 
+{%  for point in original_points%}
+var marker = L.marker({{ original_points.point }}).addTo(map);
+{%  endfor %}
+
 const tiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19,
     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
