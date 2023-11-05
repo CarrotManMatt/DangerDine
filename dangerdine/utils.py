@@ -116,10 +116,10 @@ def all_businesses() -> list[dict[str, str | float]]:
 
 def getPolyLinePoints(coords: list[tuple[int, int]]) -> list[list[float]]:
 
-    i = 0
-    while i < len(coords):
-        coords[i] = (coords[i][1], coords[i][0])
-        i += 1
+    k = 0
+    while k < len(coords):
+        coords[k] = (coords[k][1], coords[k][0])
+        k += 1
 
 
     numcoords = len(coords)
@@ -134,19 +134,17 @@ def getPolyLinePoints(coords: list[tuple[int, int]]) -> list[list[float]]:
         smallestlist.append(trythisone)
         j += 1
 
-    j = smallestlist.index(min(smallestlist)) + 1
+    indexofshortest = smallestlist.index(min(smallestlist)) + 1
 
-    coords[numcoords - 1], coords[j] = coords[j], coords[numcoords - 1]
+    coords[numcoords - 1], coords[indexofshortest] = coords[indexofshortest], coords[numcoords - 1]
     client = openrouteservice.Client(key='5b3ce3597851110001cf6248dd014f6c26da4099a9ef15690af0e722')
     geometry = client.directions(coords, optimize_waypoints=True)['routes'][0]['geometry']
 
-    ## print(geometry)
-
-    geometry = (convert.decode_polyline(geometry))['coordinates']
+    polylinepoints = (convert.decode_polyline(geometry))['coordinates']
 
     i = 0
-    while i < len(geometry):
-        geometry[i][1], geometry[i][0] = geometry[i][0], geometry[i][1]
+    while i < len(polylinepoints):
+        polylinepoints[i][1], polylinepoints[i][0] = polylinepoints[i][0], polylinepoints[i][1]
         i += 1
 
-    return geometry
+    return polylinepoints
