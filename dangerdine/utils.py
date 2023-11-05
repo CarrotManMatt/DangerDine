@@ -97,12 +97,6 @@ def all_businesses() -> dict[str, str | float]:
 
 
 def getPolyLinePoints(coords: list[tuple[int, int]]) -> list[list[float]]:
-
-    k = 0
-    while k < len(coords):
-        coords[k] = (coords[k][1], coords[k][0])
-        k += 1
-
     numcoords = len(coords)
     # Tests all possible end points to find the most optimal
     j = 1

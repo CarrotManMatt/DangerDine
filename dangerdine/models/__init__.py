@@ -67,6 +67,7 @@ class User(CustomBaseModel, AbstractBaseUser, PermissionsMixin):
     )
 
     objects = UserManager()
+    location_routes: models.Manager["LocationRoute"]
 
     USERNAME_FIELD: Final[str] = "email"
     EMAIL_FIELD: Final[str] = "email"

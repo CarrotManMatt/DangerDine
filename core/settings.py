@@ -9,6 +9,7 @@ from copy import copy
 from pathlib import Path
 from typing import Final
 
+import django.urls
 from django.core.exceptions import ImproperlyConfigured
 from environ import Env
 
@@ -196,6 +197,12 @@ AUTHENTICATION_BACKENDS = [
     "django.contrib.auth.backends.ModelBackend",
     "allauth.account.auth_backends.AuthenticationBackend"
 ]
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_AUTHENTICATION_METHOD = "email"
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
+LOGIN_REDIRECT_URL = "/my-routes/"
+LOGOUT_REDIRECT_URL = django.urls.reverse_lazy("default")
 AUTH_USER_MODEL = "dangerdine.User"
 
 
