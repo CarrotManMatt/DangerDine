@@ -15,133 +15,98 @@
 <body class="bg-secondary">
 
 
-<nav class="navbar navbar-expand-sm bg-dark text-white" data-bs-toggle="modal" data-bs-target="#loginModal">
+<nav class="navbar navbar-expand-sm bg-dark text-white">
 
     <div class="container-fluid">
         <img src="{% static 'dangerdine/dangerdinelogo.png' %}" class="navbar-brand" width="200" alt="DangerDine logo">
-        <a class="btn btn-primary bg-danger float-right" href="#">Login</a>
+        <a class="btn btn-primary bg-danger float-right" href="/accounts/login">Login</a>
     </div>
-
-    <div class="modal text-dark" id="loginModal">
-        <div class="modal-dialog">
-            <div class="modal-content">
-
-                <div class="modal-header">
-                    <h4 class="modal-title">Login</h4>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-
-                <div class="modal-body">
-                    <form action="#">
-                        <div class="mb-3 mt-3">
-                            <label for="username" class="form-label">Username:</label>
-                            <input type="text" class="form-control" id="username" placeholder="Enter username" name="username">
-                        </div>
-                        <div class="mb-3">
-                            <label for="pwd" class="form-label">Password:</label>
-                            <input type="password" class="form-control" id="pwd" placeholder="Enter password" name="pswd">
-                        </div>
-
-                        <button type="submit" class="btn btn-danger">Login</button>
-                    </form>
-                </div>
-
-            </div>
-        </div>
 
 </nav>
 
 
 <div class="container-fluid bg-secondary">
+    <form method="post" action="/add-route" id="add_route_form">
+        {% csrf_token %}
+        <div class="row">
 
-    <div class="row">
-        <div class="col-sm-3"></div>
-        <div class="col-sm-6">
-            <br>
-            <br>
-            <div class="jumbotron mt-4 p-5 bg-danger text-white rounded">
-                <h1>Boost your immune system.</h1>
-                <p>Take yourself on a culinary journey through establishments with low hygiene ratings. Add a little risk and spice to your life. You know you want to.</p>
-            </div>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-sm-3"></div>
-
-        <div class="col-sm-4 align-items-center">
-            <label for="locationInput text-white">Where are you?</label>
-            <input type="text" class="form-control" id="locationInput" placeholder="Location" required>
-        </div>
-
-        <div class="col-sm-2 align-items-center text-center">
-            <br>
-            <button class="btn btn-danger" type="submit">Go</button>
-        </div>
-    </div>
-
-    <br>
-
-    <div class="row">
-        <div class="col-sm-3"></div>
-        <div class="col-sm-6">
-
-            <div class="align-items-center justify-content-center">
-
-                <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
-
-                <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-                        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
-                        crossorigin=""></script>
-                <div id="map" style="width: 600px; height: 400px; position: relative; outline-style: none;" class="leaflet-container leaflet-touch leaflet-retina leaflet-fade-anim leaflet-grab leaflet-touch-drag leaflet-touch-zoom" tabindex="0">
-                    <div class="leaflet-control-container">
-                        <div class="leaflet-top leaflet-left">
-                            <div class="leaflet-control-zoom leaflet-bar leaflet-control"><a class="leaflet-control-zoom-in" href="#" title="Zoom in" role="button" aria-label="Zoom in" aria-disabled="false"><span aria-hidden="true">+</span></a><a class="leaflet-control-zoom-out" href="#" title="Zoom out" role="button" aria-label="Zoom out" aria-disabled="false"><span aria-hidden="true">−</span></a></div>
-                        </div>
-                        <div class="leaflet-top leaflet-right"></div>
-                        <div class="leaflet-bottom leaflet-left"></div>
-                        <div class="leaflet-bottom leaflet-right">
-                            <div class="leaflet-control-attribution leaflet-control"><a href="https://leafletjs.com" title="A JavaScript library for interactive maps">
-                                <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="12" height="8" viewBox="0 0 12 8" class="leaflet-attribution-flag">
-                                    <path fill="#4C7BE1" d="M0 0h12v4H0z"></path>
-                                    <path fill="#FFD500" d="M0 4h12v3H0z"></path>
-                                    <path fill="#E0BC00" d="M0 7h12v1H0z"></path>
-                                </svg>
-                                Leaflet</a> <span aria-hidden="true">|</span> © <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a></div>
-                        </div>
-                    </div>
-                    <div class="leaflet-pane leaflet-map-pane" style="transform: translate3d(-46px, 0px, 0px);">
-                        <div class="leaflet-pane leaflet-shadow-pane"><img src="https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" alt="" style="margin-left: -12px; margin-top: -41px; width: 41px; height: 41px; transform: translate3d(344px, 247px, 0px);"></div>
-                        <div class="leaflet-pane leaflet-marker-pane"><img src="https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" alt="Marker" tabindex="0" role="button" style="margin-left: -12px; margin-top: -41px; width: 25px; height: 41px; transform: translate3d(344px, 247px, 0px); z-index: 247;"></div>
-                        <div class="leaflet-pane leaflet-tooltip-pane"></div>
-                        <div class="leaflet-pane leaflet-popup-pane"></div>
-                        <div class="leaflet-proxy leaflet-zoom-animated" style="transform: translate3d(1.04805e+06px, 697379px, 0px) scale(4096);"></div>
-                    </div>
+            <div class="col-sm-3"></div>
+            <div class="col-sm-6">
+                <br>
+                <br>
+                <div class="jumbotron mt-4 p-5 bg-danger text-white rounded">
+                    <h1>Boost your immune system.</h1>
+                    <p>Take yourself on a culinary journey through establishments with low hygiene ratings. Add a little risk and spice to your life. You know you want to.</p>
                 </div>
-
-                <script>
-                    const map = L.map('map').setView([52.95317, -1.18674], 17);
-
-                    const tiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                        maxZoom: 19,
-                        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-                    }).addTo(map);
-                </script>
             </div>
         </div>
 
-        <div class="col-sm-3"></div>
+        <br>
+        <div class="row">
+            <div class="col-sm-3"></div>
+            <div class="col-sm-6">
 
-    </div>
+                <div class="align-items-center justify-content-center">
 
-    <div class="row">
-        <div class="col-sm-3"></div>
-        <div class="col-sm-6">
-            <label for="locationRange" class="form-label">How many stops?</label>
-            <input type="range" class="form-range" min="1" max="10" step="1" id="locationRange">
+                    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+
+                    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+                            integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+                            crossorigin=""></script>
+                    <div id="map" style="width: 600px; height: 400px; position: relative; outline-style: none;" class="leaflet-container leaflet-touch leaflet-retina leaflet-fade-anim leaflet-grab leaflet-touch-drag leaflet-touch-zoom" tabindex="0">
+                        <div class="leaflet-control-container">
+                            <div class="leaflet-top leaflet-left">
+                                <div class="leaflet-control-zoom leaflet-bar leaflet-control"><a class="leaflet-control-zoom-in" href="#" title="Zoom in" role="button" aria-label="Zoom in" aria-disabled="false"><span aria-hidden="true">+</span></a><a class="leaflet-control-zoom-out" href="#" title="Zoom out" role="button" aria-label="Zoom out" aria-disabled="false"><span aria-hidden="true">−</span></a></div>
+                            </div>
+                            <div class="leaflet-top leaflet-right"></div>
+                            <div class="leaflet-bottom leaflet-left"></div>
+                            <div class="leaflet-bottom leaflet-right">
+                                <div class="leaflet-control-attribution leaflet-control"><a href="https://leafletjs.com" title="A JavaScript library for interactive maps">
+                                    <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="12" height="8" viewBox="0 0 12 8" class="leaflet-attribution-flag">
+                                        <path fill="#4C7BE1" d="M0 0h12v4H0z"></path>
+                                        <path fill="#FFD500" d="M0 4h12v3H0z"></path>
+                                        <path fill="#E0BC00" d="M0 7h12v1H0z"></path>
+                                    </svg>
+                                    Leaflet</a> <span aria-hidden="true">|</span> © <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a></div>
+                            </div>
+                        </div>
+                        <div class="leaflet-pane leaflet-map-pane" style="transform: translate3d(-46px, 0px, 0px);">
+                            <div class="leaflet-pane leaflet-shadow-pane"><img src="https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" alt="" style="margin-left: -12px; margin-top: -41px; width: 41px; height: 41px; transform: translate3d(344px, 247px, 0px);"></div>
+                            <div class="leaflet-pane leaflet-marker-pane"><img src="https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" alt="Marker" tabindex="0" role="button" style="margin-left: -12px; margin-top: -41px; width: 25px; height: 41px; transform: translate3d(344px, 247px, 0px); z-index: 247;"></div>
+                            <div class="leaflet-pane leaflet-tooltip-pane"></div>
+                            <div class="leaflet-pane leaflet-popup-pane"></div>
+                            <div class="leaflet-proxy leaflet-zoom-animated" style="transform: translate3d(1.04805e+06px, 697379px, 0px) scale(4096);"></div>
+                        </div>
+                    </div>
+
+                    <script>
+                        const map = L.map('map').setView([52.95317, -1.18674], 17);
+
+                        const tiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                            maxZoom: 19,
+                            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+                        }).addTo(map);
+                    </script>
+                </div>
+            </div>
+
+            <div class="col-sm-1 align-items-right text-center">
+                <br>
+                <button class="btn btn-danger" type="submit">Go</button>
+            </div>
+
+            <div class="col-sm-2"></div>
+
         </div>
-    </div>
 
+        <div class="row">
+            <div class="col-sm-3"></div>
+            <div class="col-sm-6">
+                <label for="locationRange" class="form-label">How many stops?</label>
+                <input type="range" form="add_route_form" class="form-range" min="1" max="10" step="1" id="locationRange">
+            </div>
+        </div>
+    </form>
 </div>
 <footer class="bg-dark text-secondary">
     <div class="row">

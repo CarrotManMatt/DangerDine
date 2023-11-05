@@ -3,7 +3,10 @@
 from collections.abc import Callable
 from typing import TYPE_CHECKING, Any
 
+from django import shortcuts
 from django.contrib import auth
+from django.http import HttpRequest, HttpResponseRedirect
+from django.views import View
 from django.views.generic.base import TemplateView
 
 import dangerdine.utils
@@ -18,6 +21,13 @@ get_user_model: Callable[[], "User"] = auth.get_user_model  # type: ignore[assig
 class HomeView(TemplateView):
     template_name = "dangerdine/home.html"
     http_method_names = ["get"]  # noqa: RUF012
+
+
+class AddRouteView(View):
+    http_method_names = ["post"]  # noqa: RUF012
+
+    def post(self, _: HttpRequest, *__: Any, **___: Any) -> HttpResponseRedirect:
+        return shortcuts.redirect("/my-routes")
 
 
 class UserView(TemplateView):
