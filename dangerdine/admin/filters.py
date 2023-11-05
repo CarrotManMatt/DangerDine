@@ -100,3 +100,22 @@ class BusinessRatingLocationFoodHygieneRatingListFilter(admin.SimpleListFilter):
         return queryset.filter(
             food_hygiene_rating=BusinessRatingLocation.FoodHygieneRating(value)
         )
+
+
+class LocationRouteBusinessRatingLocationCountListFilter(admin.ListFilter):
+    # noinspection SpellCheckingInspection
+    """
+    Admin filter to limit :model:`dangerdine.locationroute` objects.
+
+    They are limited by the number of Business Rating Locations within this Location Route.
+    """
+
+    def __new__(cls, request: HttpRequest, params: dict[str, str], model: type[Model], model_admin: ModelAdmin) -> admin.ListFilter:  # type: ignore[type-arg,misc] # noqa: E501
+        return NumericRangeFilter(  # type: ignore[no-any-return]
+            models.PositiveIntegerField(verbose_name=_("Number of Business Rating Locations")),
+            request,
+            params,
+            model,
+            model_admin,
+            field_path="business_rating_location_count",
+        )

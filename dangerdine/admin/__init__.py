@@ -13,11 +13,12 @@ from django.http import HttpRequest
 from django.utils.translation import gettext_lazy as _
 from rangefilter.filters import DateTimeRangeFilterBuilder
 
-from dangerdine.models import BusinessRatingLocation
+from dangerdine.models import BusinessRatingLocation, LocationRoute
 
 from .filters import (
     BusinessRatingLocationFoodHygieneRatingListFilter,
     BusinessRatingLocationLocationRouteCountListFilter,
+    LocationRouteBusinessRatingLocationCountListFilter,
     UserIsActiveListFilter,
     UserIsStaffListFilter,
 )
@@ -147,3 +148,50 @@ class BusinessRatingLocationAdmin(ModelAdmin):  # type: ignore[type-arg]
             return admin.site.empty_value_display
 
         return obj.location_route_count  # type: ignore[no-any-return,attr-defined]
+
+
+@admin.register(LocationRoute)
+class LocationRouteAdmin(ModelAdmin):  # type: ignore[type-arg]
+    # noinspection SpellCheckingInspection
+    """
+    Admin display configuration for :model:`dangerdine.locationroute` models.
+
+    This adds the functionality to provide custom display configurations on the
+    list, create & update pages.
+    """
+
+    fields = ("user", "business_rating_location_count")
+    list_display = ("user", "business_rating_location_count")
+    list_display_links = ("user", "business_rating_location_count")
+    list_filter = (LocationRouteBusinessRatingLocationCountListFilter,)
+    readonly_fields = ("business_rating_location_count",)
+    search_fields = ("user__email", "business_rating_location__name")
+    search_help_text = _(
+        "Search for a user's Email Address or a Business Rating Location's name"#
+    )
+
+    def get_queryset(self, request: HttpRequest) -> QuerySet[LocationRoute]:
+        # noinspection SpellCheckingInspection
+        """
+        Return a QuerySet of all :model:`dangerdine.locationroute` model instances.
+
+        These are the instances that can be edited by the admin site. This is used by
+        changelist_view.
+        """
+        return super().get_queryset(request).annotate(  # type: ignore[no-any-return]
+            business_rating_location_count=models.Count(
+                "business_rating_locations",
+                distinct=True
+            )
+        )
+
+    @admin.display(
+        description=_("Number of Business Rating Locations"),
+        ordering="business_rating_location_count"
+    )
+    def business_rating_location_count(self, obj: LocationRoute | None) -> int | str:
+        """Return the number of Business Rating Locations within this Location Route."""
+        if not obj:
+            return admin.site.empty_value_display
+
+        return obj.business_rating_location_count  # type: ignore[no-any-return,attr-defined]
