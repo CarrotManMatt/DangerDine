@@ -33,7 +33,8 @@ class AddRouteView(View):
     def post(self, request: HttpRequest, *_: Any, **__: Any) -> HttpResponseRedirect:
         if request.user.is_authenticated:
             anchor: tuple[float, float] = float(str(request.POST["startCoords"]).split(",")[0]), float(str(request.POST["startCoords"]).split(",")[1])
-            route = LocationRoute.objects.create(user=request.user)
+            print(anchor)
+            route = LocationRoute.objects.create(user=request.user, anchor=Point(anchor, srid=4326))
             for business in BusinessRatingLocation.objects.annotate(distance=Distance("location", Point(anchor, srid=4326))).order_by("distance")[:int(request.POST["locationRange"])]:
                 route.business_rating_locations.add(business)
         return shortcuts.redirect("/my-routes")
@@ -54,9 +55,9 @@ class UserView(TemplateView):
         route: LocationRoute
         for route in user.location_routes.all():
             original_points: list[tuple[float, float, str]] = [
-                (business_location.location.x, business_location.location.y, business_location.name)
+                (business_location.location.x, business_location.location.y, f"{business_location.name} - {business_location.food_hygiene_rating}★")
                 for business_location
-                in route.business_rating_locations.all()
+                in route.business_rating_locations.all().order_by("-id")
             ]
 
             if not original_points:
@@ -66,7 +67,7 @@ class UserView(TemplateView):
                 {
                     "id": route.id,
                     "original_points": [[point[1], point[0], point[2]] for point in original_points],
-                    "route_points": dangerdine.utils.getPolyLinePoints(original_points)  # type: ignore[attr-defined]
+                    "route_points": dangerdine.utils.getPolyLinePoints([tuple(route.anchor)] + original_points)  # type: ignore[attr-defined]
                 }
             )
         return context

@@ -204,8 +204,12 @@ class LocationRouteAdmin(ModelAdmin):  # type: ignore[type-arg]
     list, create & update pages.
     """
 
-    fields = ("user", ("business_rating_locations", "business_rating_location_count"))
-    list_display = ("id", "user", "business_rating_location_count")
+    fields = (
+        "user",
+        ("business_rating_locations", "business_rating_location_count"),
+        "anchor"
+    )
+    list_display = ("id", "user", "business_rating_location_count", "anchor")
     list_display_links = ("id", "user", "business_rating_location_count")
     list_filter = (LocationRouteBusinessRatingLocationCountListFilter,)
     autocomplete_fields = ("business_rating_locations",)

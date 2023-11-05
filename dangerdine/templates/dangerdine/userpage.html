@@ -56,10 +56,10 @@
             var polylinePoints = {{ full_routes.0.route_points }};
             var polyline = L.polyline(polylinePoints).addTo(map);
 
-            {%  for point in full_routes.0.original_points %}
+            {% for point in full_routes.0.original_points %}
                 var marker = L.marker([{{ point.0 }}, {{ point.1 }}]).addTo(map);
                 marker.bindPopup("{{ point.2 }}").openPopup();
-            {%  endfor %}
+            {% endfor %}
 
 
         </script>

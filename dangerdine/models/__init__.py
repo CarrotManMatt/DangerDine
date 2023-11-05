@@ -150,6 +150,7 @@ class LocationRoute(CustomBaseModel):
         help_text=_("The set of business rating locations in this route."),
         blank=False
     )
+    anchor = models.PointField(_("Anchor Location"))
 
     class Meta:
         verbose_name = _("Location Route")
