@@ -118,7 +118,7 @@ def getPolyLinePoints(coords: list[tuple[int, int]]) -> list[list[float]]:
 
     i = 0
     while i < len(coords):
-        coords[i][1], coords[i][0] = coords[i][0], coords[i][1]
+        coords[i] = (coords[i][1], coords[i][0])
         i += 1
 
 
