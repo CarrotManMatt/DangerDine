@@ -42,7 +42,7 @@ if env("PRODUCTION"):
 else:
     dev_env: Env = Env(
         DEBUG=(bool, True),
-        ALLOWED_HOSTS=(list, ["localhost"]),
+        ALLOWED_HOSTS=(list, ["localhost", "0.0.0.0"]),
         LOG_LEVEL=(str, "INFO")
     )
 
