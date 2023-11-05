@@ -83,7 +83,7 @@ Wow!
 </div>
 
 <script>
-const map = L.map('map').setView([52.93781, -1.14837], 16);
+const map = L.map('map').setView({{ route_points.1 }}, 16);
 
 const tiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19,
@@ -91,7 +91,7 @@ const tiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 }).addTo(map);
 
 
-var polylinePoints = [[52.93781, -1.14837], [52.93784, -1.14773], [52.93829, -1.14779], [52.93873, -1.14785], [52.93871, -1.14843], [52.93873, -1.14785], [52.93918, -1.14791], [52.93932, -1.14794], [52.93937, -1.14719], [52.9394, -1.14662], [52.93937, -1.14719], [52.93935, -1.14753]];
+var polylinePoints = {{ route_points }};
   var polyline = L.polyline(polylinePoints).addTo(map);
 
 
