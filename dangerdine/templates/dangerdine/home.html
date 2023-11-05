@@ -68,11 +68,10 @@
                           map.addEventListener('mouseout', function(){
                             centre = map.getCenter();
                             coords = [centre.lng, centre.lat];
+                            document.getElementById('startCoords').value=coords;
                           });
 
-                          function setVal(){
-                            document.getElementById('startCoords').value=coords;
-                          }
+
                     </script>
                     <div class="leaflet-pane leaflet-marker-pane"><img src="https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" alt="Marker" tabindex="0" role="button" style="margin-left: -12px; margin-top: -41px; width: 25px; height: 41px; transform: translate3d(300px, 200px, 0px);"></div>
 
