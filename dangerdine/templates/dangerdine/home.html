@@ -78,7 +78,7 @@
                             <div class="leaflet-proxy leaflet-zoom-animated" style="transform: translate3d(1.04805e+06px, 697379px, 0px) scale(4096);"></div>
                         </div>
                     </div>
-
+                    <input type="hidden" id="startCoords" name="startCoords" value='' />
                     <script>
                         const map = L.map('map').setView([52.95317, -1.18674], 17);
 
@@ -93,6 +93,10 @@
                             centre = map.getCenter();
                             coords = [centre.lng, centre.lat];
                           });
+
+                          function setVal(){
+                            document.getElementById('startCoords').value=coords;
+                          }
                     </script>
                     <div class="leaflet-pane leaflet-marker-pane"><img src="https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" alt="Marker" tabindex="0" role="button" style="margin-left: -12px; margin-top: -41px; width: 25px; height: 41px; transform: translate3d(300px, 200px, 0px);"></div>
                 </div>
@@ -102,7 +106,6 @@
                 <br>
                 <button class="btn btn-danger" type="submit">Go</button>
             </div>
-
             <div class="col-sm-2"></div>
 
         </div>
