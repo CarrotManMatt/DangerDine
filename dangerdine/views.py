@@ -21,5 +21,12 @@ class HomeView(TemplateView):
 
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
-        context["route_points"] = dangerdine.utils.getPolyLinePoints()  # type: ignore[attr-defined]
+        original_points: list[tuple[float, float]] = [
+            (-1.176063, 52.955102),
+            (-1.185526, 52.956178),
+            (-1.181988, 52.954766),
+            (-1.189677385249408, 52.956252340447975)
+        ]
+        context["original_points"] = original_points
+        context["route_points"] = dangerdine.utils.getPolyLinePoints(original_points)  # type: ignore[attr-defined]
         return context
