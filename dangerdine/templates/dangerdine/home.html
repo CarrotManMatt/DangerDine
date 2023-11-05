@@ -14,6 +14,7 @@ Wow!
      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
      crossorigin=""></script>
 <div id="map" style="width: 600px; height: 400px; position: relative; outline-style: none;" class="leaflet-container leaflet-touch leaflet-retina leaflet-fade-anim leaflet-grab leaflet-touch-drag leaflet-touch-zoom" tabindex="0">
+  <!--
   <div class="leaflet-pane leaflet-map-pane" style="transform: translate3d(-46px, 0px, 0px);">
     <div class="leaflet-pane leaflet-tile-pane"><div class="leaflet-layer " style="z-index: 1; opacity: 1;">
       <div class="leaflet-tile-container leaflet-zoom-animated" style="z-index: 19; transform: translate3d(44px, 0px, 0px) scale(1);">
@@ -42,6 +43,7 @@ Wow!
       </g>
     </svg>
   </div>
+
   <div class="leaflet-pane leaflet-shadow-pane">
     <img src="https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png" class="leaflet-marker-shadow leaflet-zoom-animated" alt="" style="margin-left: -12px; margin-top: -41px; width: 41px; height: 41px; transform: translate3d(344px, 247px, 0px);">
   </div>
@@ -51,7 +53,9 @@ Wow!
   <div class="leaflet-pane leaflet-tooltip-pane"></div>
   <div class="leaflet-pane leaflet-popup-pane"></div>
   <div class="leaflet-proxy leaflet-zoom-animated" style="transform: translate3d(1.04805e+06px, 697379px, 0px) scale(4096);"></div>
+  -->
 </div>
+<!--
 <div class="leaflet-control-container">
   <div class="leaflet-top leaflet-left">
     <div class="leaflet-control-zoom leaflet-bar leaflet-control">
@@ -81,7 +85,7 @@ Wow!
     </div>
   </div>
 </div>
-
+-->
 <script>
 const map = L.map('map').setView({{ route_points.1 }}, 16);
 
