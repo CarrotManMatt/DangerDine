@@ -143,3 +143,5 @@ cython_debug/
 
 # ruff
 .ruff_cache/
+
+desktop.ini
