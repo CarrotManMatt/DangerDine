@@ -8,7 +8,6 @@ from django.views.generic import RedirectView
 from core.views import AdminDocsRedirectView
 
 urlpatterns: list[URLResolver | URLPattern] = [
-    # TODO: Remove Group model from admin docs
     django.urls.path(
         r"admin/doc/",
         django.urls.include("django.contrib.admindocs.urls")
@@ -19,6 +18,7 @@ urlpatterns: list[URLResolver | URLPattern] = [
         AdminDocsRedirectView.as_view()
     ),
     django.urls.path(r"admin/", admin.site.urls),
+    django.urls.path(r"accounts/", django.urls.include("allauth.urls")),
     django.urls.path("", django.urls.include("dangerdine.urls")),
     django.urls.path(
         "",

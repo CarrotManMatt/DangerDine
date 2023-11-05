@@ -60,7 +60,7 @@ if not 0.1 <= env("PASSWORD_SIMILARITY_TO_USER_ATTRIBUTES") <= 1.0:  # noqa: PLR
 log_level_choices: Sequence[str] = ("DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL")
 if log_level not in log_level_choices:
     INVALID_LOG_LEVEL_MESSAGE: Final[str] = f"""LOG_LEVEL must be one of {
-        ",".join(f'"{log_level_choice}"' for log_level_choice in log_level_choices[:-1])
+        ",".join(f"{log_level_choice!r}" for log_level_choice in log_level_choices[:-1])
     } or \"{log_level_choices[-1]}\"."""
     raise ImproperlyConfigured(INVALID_LOG_LEVEL_MESSAGE)
 
@@ -117,6 +117,8 @@ SITE_ID = 1
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
+    "allauth",
+    "allauth.account",
     "dangerdine.apps.DangerDineConfig",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
@@ -135,7 +137,8 @@ MIDDLEWARE = [
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
-    "django.middleware.clickjacking.XFrameOptionsMiddleware"
+    "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "allauth.account.middleware.AccountMiddleware"
 ]
 
 
@@ -188,6 +191,10 @@ AUTH_PASSWORD_VALIDATORS = [
     {
         "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
     },
+]
+AUTHENTICATION_BACKENDS = [
+    "django.contrib.auth.backends.ModelBackend",
+    "allauth.account.auth_backends.AuthenticationBackend"
 ]
 AUTH_USER_MODEL = "dangerdine.User"
 
