@@ -8,7 +8,10 @@ def all_businesses() -> list[dict[str, str | float]]:
     API to get a list of all businesses rated 0 or 1,
     then selects only the specific business types needed,
     and finally gets the correct geo-coordinates using another API.
-    Returns the full list."""
+    Returns the full list of 5951~ businesses, where each business
+    is a dictionary with four keys: the 'Name', the 'Rating', the
+    'Longitude', and the 'Latitude'.
+    Written by Donian of donian.itch.io fame (Also Matt is Cringe)"""
 
     needed_business_types = ["7844", "4613", "7840", "1", "7843"]
 
