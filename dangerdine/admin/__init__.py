@@ -21,7 +21,9 @@ from .filters import (
     LocationRouteBusinessRatingLocationCountListFilter,
     UserIsActiveListFilter,
     UserIsStaffListFilter,
+    UserLocationRouteCountListFilter,
 )
+from .inlines import BusinessRatingLocationLocationRoutesInline, UserLocationRoutesInline
 
 if TYPE_CHECKING:
     from django.forms import ModelForm
@@ -50,7 +52,7 @@ class UserAdmin(DjangoUserAdmin):
 
     filter_horizontal = ("user_permissions",)
     fieldsets = (
-        (None, {"fields": ("email", "is_active")}),
+        (None, {"fields": ("email", "is_active", "location_route_count")}),
         ("Authentication", {"fields": ("last_login", "password"), "classes": ("collapse",)}),
         ("Permissions", {
             "fields": ("user_permissions", "is_staff", "is_superuser"),
@@ -65,15 +67,17 @@ class UserAdmin(DjangoUserAdmin):
             "classes": ("collapse",)
         })
     )
-    list_display = ("id", "email", "is_staff", "is_active")
+    list_display = ("id", "email", "is_staff", "is_active", "location_route_count")
     list_display_links = ("id", "email")
     list_editable = ("is_staff", "is_active")
     list_filter = (
         UserIsStaffListFilter,
         UserIsActiveListFilter,
+        UserLocationRouteCountListFilter,
         ("last_login", DateTimeRangeFilterBuilder(title=_("Last Login")))
     )
-    readonly_fields = ("password", "last_login")
+    inlines = (UserLocationRoutesInline,)
+    readonly_fields = ("password", "last_login", "location_route_count")
     search_fields = ("email",)
     ordering = ("email",)
     search_help_text = _("Search for a user's Email Address")
@@ -105,6 +109,26 @@ class UserAdmin(DjangoUserAdmin):
         )
         return super().get_form(*args, **kwargs)
 
+    def get_queryset(self, request: HttpRequest) -> QuerySet["User"]:  # type: ignore[override]
+        # noinspection SpellCheckingInspection
+        """
+        Return a QuerySet of all :model:`dangerdine.user` model instances.
+
+        These are the instances that can be edited by the admin site. This is used by
+        changelist_view.
+        """
+        return super().get_queryset(request).annotate(  # type: ignore[return-value]
+            location_route_count=models.Count("location_routes", distinct=True)
+        )
+
+    @admin.display(description=_("Number of Location Routes"), ordering="location_route_count")
+    def location_route_count(self, obj: "User | None") -> int | str:
+        """Return the number of location routes that this User owns."""
+        if not obj:
+            return admin.site.empty_value_display
+
+        return obj.location_route_count  # type: ignore[no-any-return,attr-defined]
+
 
 @admin.register(BusinessRatingLocation)
 class BusinessRatingLocationAdmin(ModelAdmin):  # type: ignore[type-arg]
@@ -117,13 +141,14 @@ class BusinessRatingLocationAdmin(ModelAdmin):  # type: ignore[type-arg]
     """
 
     fields = ("name", "food_hygiene_rating", "location", "location_route_count")
-    list_display = ("name", "food_hygiene_rating", "location", "location_route_count")
+    list_display = ("name", "food_hygiene_rating", "location_route_count", "location")
     list_display_links = ("name",)
     list_editable = ("food_hygiene_rating", "location")
     list_filter = (
         BusinessRatingLocationFoodHygieneRatingListFilter,
         BusinessRatingLocationLocationRouteCountListFilter
     )
+    inlines = (BusinessRatingLocationLocationRoutesInline,)
     readonly_fields = ("location_route_count",)
     search_fields = ("name",)
     ordering = ("food_hygiene_rating", "name")
@@ -160,14 +185,15 @@ class LocationRouteAdmin(ModelAdmin):  # type: ignore[type-arg]
     list, create & update pages.
     """
 
-    fields = ("user", "business_rating_location_count")
-    list_display = ("user", "business_rating_location_count")
-    list_display_links = ("user", "business_rating_location_count")
+    fields = ("user", ("business_rating_locations", "business_rating_location_count"))
+    list_display = ("id", "user", "business_rating_location_count")
+    list_display_links = ("id", "user", "business_rating_location_count")
     list_filter = (LocationRouteBusinessRatingLocationCountListFilter,)
+    autocomplete_fields = ("business_rating_locations",)
     readonly_fields = ("business_rating_location_count",)
     search_fields = ("user__email", "business_rating_location__name")
     search_help_text = _(
-        "Search for a user's Email Address or a Business Rating Location's name"#
+        "Search for a user's Email Address or a Business Rating Location's name"
     )
 
     def get_queryset(self, request: HttpRequest) -> QuerySet[LocationRoute]:

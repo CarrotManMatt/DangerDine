@@ -13,10 +13,10 @@ repos:
     hooks:
     -   id: mypy
         additional_dependencies: [
-          django-stubs==4.2,
-          django-environ==0.11,
-          django-admin-rangefilter==0.11,
-          tldextract==5.0,
-          confusable_homoglyphs==3.2,
-          types-requests==2.31
+          django-stubs>=4.2,
+          django-environ>=0.11,
+          django-admin-rangefilter>=0.11,
+          tldextract>=5.0,
+          confusable_homoglyphs>=3.2,
+          types-requests>=2.31
         ]

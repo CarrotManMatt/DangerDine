@@ -53,6 +53,25 @@ class UserIsActiveListFilter(admin.SimpleListFilter):
         return queryset
 
 
+class UserLocationRouteCountListFilter(admin.ListFilter):
+    # noinspection SpellCheckingInspection
+    """
+    Admin filter to limit :model:`dangerdine.user` objects.
+
+    They are limited by the number of location routes they own.
+    """
+
+    def __new__(cls, request: HttpRequest, params: dict[str, str], model: type[Model], model_admin: ModelAdmin) -> admin.ListFilter:  # type: ignore[type-arg,misc] # noqa: E501
+        return NumericRangeFilter(  # type: ignore[no-any-return]
+            models.PositiveIntegerField(verbose_name=_("Number of owned Location Routes")),
+            request,
+            params,
+            model,
+            model_admin,
+            field_path="location_route_count",
+        )
+
+
 class BusinessRatingLocationLocationRouteCountListFilter(admin.ListFilter):
     # noinspection SpellCheckingInspection
     """
