@@ -86,13 +86,21 @@
                             maxZoom: 19,
                             attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
                         }).addTo(map);
+
+                        var centre;
+                        var coords = [52.95317, -1.18674];
+                          map.addEventListener('mouseout', function(){
+                            centre = map.getCenter();
+                            coords = [centre.lng, centre.lat];
+                          });
                     </script>
+                    <div class="leaflet-pane leaflet-marker-pane"><img src="https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png" class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" alt="Marker" tabindex="0" role="button" style="margin-left: -12px; margin-top: -41px; width: 25px; height: 41px; transform: translate3d(300px, 200px, 0px);"></div>
                 </div>
             </div>
 
             <div class="col-sm-1 align-items-right text-center">
                 <br>
-                <button class="btn btn-danger" type="submit">Go</button>
+                <button class="btn btn-danger" type="submit" onclick="window.alert(coords)">Go</button>
             </div>
 
             <div class="col-sm-2"></div>
