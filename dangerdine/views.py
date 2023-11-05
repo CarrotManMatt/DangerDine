@@ -53,8 +53,8 @@ class UserView(TemplateView):
         context["full_routes"] = []
         route: LocationRoute
         for route in user.location_routes.all():
-            original_points: list[tuple[float, float]] = [
-                (business_location.location.x, business_location.location.y)
+            original_points: list[tuple[float, float, str]] = [
+                (business_location.location.x, business_location.location.y, business_location.name)
                 for business_location
                 in route.business_rating_locations.all()
             ]
@@ -65,7 +65,7 @@ class UserView(TemplateView):
             context["full_routes"].append(
                 {
                     "id": route.id,
-                    "original_points": [list(point) for point in original_points],
+                    "original_points": [[point[1], point[0], point[2]] for point in original_points],
                     "route_points": dangerdine.utils.getPolyLinePoints(original_points)  # type: ignore[attr-defined]
                 }
             )
