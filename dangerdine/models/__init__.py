@@ -36,7 +36,6 @@ class User(CustomBaseModel, AbstractBaseUser, PermissionsMixin):
         attribute_name="get_group_permissions"
     )
 
-
     email = models.EmailField(
         verbose_name=_("Email Address"),
         max_length=255,
@@ -155,4 +154,4 @@ class LocationRoute(CustomBaseModel):
         verbose_name = _("Location Route")
 
     def __str__(self) -> str:
-        return f"{self.user} - {self.business_rating_locations.count()} locations"
+        return f"ID: {self.id}"
