@@ -33,12 +33,15 @@ class AddRouteView(View):
 
     # noinspection PyMethodMayBeStatic
     def post(self, request: HttpRequest, *_: Any, **__: Any) -> HttpResponseRedirect:
-        if request.user.is_authenticated:
+        user: User = self.request.user
+        if user.is_authenticated:
             anchor: tuple[float, float] = float(
                 str(request.POST["startCoords"]).split(",")[0]
             ), float(str(request.POST["startCoords"]).split(",")[1])
+            print(anchor)
+            user.location_routes.all().delete()
             route = LocationRoute.objects.create(
-                user=request.user,
+                user=user,
                 anchor=Point(anchor, srid=4326)
             )
             all_businesses: QuerySet[BusinessRatingLocation] = BusinessRatingLocation.objects.annotate(  # noqa: E501

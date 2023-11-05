@@ -99,19 +99,23 @@ def all_businesses() -> dict[str, str | float]:
 def getPolyLinePoints(coords: list[tuple[int, int]]) -> list[list[float]]:
     numcoords = len(coords)
     client = openrouteservice.Client(key='5b3ce3597851110001cf624875b847f68d9f425ca68e4f3ac753581a')
-    # Tests all possible end points to find the most optimal
-    j = 1
-    smallestlist = []
-    while j < (numcoords - 1):
-        tempcoords = coords
-        tempcoords[numcoords - 1], tempcoords[j] = tempcoords[j], tempcoords[numcoords - 1]
-        trythisone = client.directions(tempcoords, optimize_waypoints=True)['routes'][0]['summary']['distance']
-        smallestlist.append(trythisone)
-        j += 1
 
-    indexofshortest = smallestlist.index(min(smallestlist)) + 1
+    coords = [(coord[0], coord[1]) for coord in coords]
+    if numcoords > 2:
+        # Tests all possible end points to find the most optimal
+        j = 1
+        smallestlist = []
+        while j < (numcoords - 1):
+            tempcoords = coords
+            tempcoords[numcoords - 1], tempcoords[j] = tempcoords[j], tempcoords[numcoords - 1]
+            trythisone = client.directions(tempcoords, optimize_waypoints=True)['routes'][0]['summary']['distance']
+            smallestlist.append(trythisone)
+            j += 1
 
-    coords[numcoords - 1], coords[indexofshortest] = coords[indexofshortest], coords[numcoords - 1]
+        indexofshortest = smallestlist.index(min(smallestlist)) + 1
+        coords[numcoords - 1], coords[indexofshortest] = coords[indexofshortest], coords[numcoords - 1]
+
+
     geometry = client.directions(coords, optimize_waypoints=True)['routes'][0]['geometry']
 
     polylinepoints = (convert.decode_polyline(geometry))['coordinates']
